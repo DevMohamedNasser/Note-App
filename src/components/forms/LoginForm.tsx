@@ -39,7 +39,8 @@ export default function LoginForm() {
     // console.log(res);
     if (res?.ok) {
       toast.success('Login successfully!');
-      router.push('/');
+      // router.push('/');
+      router.refresh();
     } else {
       toast.error(res?.error);
     }
