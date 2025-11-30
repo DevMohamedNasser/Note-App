@@ -13,7 +13,7 @@ import { UpdateNote } from "./UpdateNote";
 import { DeleteNote } from "./DeleteNote";
 
 export default async function Notes() {
-  const { notes }: { notes: Note[] } = await getNotes({ tags: ["notes"] });
+  const { notes }: { notes: Note[] } = await getNotes();
   console.log(notes);
 
   return (
