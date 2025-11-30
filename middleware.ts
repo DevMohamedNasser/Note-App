@@ -1,21 +1,29 @@
-import { getToken } from 'next-auth/jwt'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
- 
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
+  const token = await getToken({ req: request, cookieName: cookieName });
+  // console.log('token', token)
 
-    const cookieName = process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token';
-    const token = await getToken({req: request, cookieName: cookieName});
-    // console.log('token', token)
-    if (token) {
-        return NextResponse.next();
-    }
+  const { pathname } = request.nextUrl;
+  if (token && (pathname.startsWith("/login") || pathname.startsWith("/register"))) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-  return NextResponse.redirect(new URL('/login', request.url))
+  if (!token && pathname === "/") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  return NextResponse.next();
 }
- 
+
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/',
-}
+  matcher: ["/", "/login", "/register"],
+};

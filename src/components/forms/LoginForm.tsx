@@ -75,7 +75,7 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <Button type="submit">Submit</Button>
           <p>
             {`U don't have an account?`}{" "}

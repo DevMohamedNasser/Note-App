@@ -118,7 +118,7 @@ export default function RegisterForm() {
           )}
         />
 
-        <div className="flex justify-between flex-wrap">
+        <div className="flex justify-between flex-wrap items-center">
           <Button type="submit">Submit</Button>
           <p>
             {`Already have an account?`}{" "}
