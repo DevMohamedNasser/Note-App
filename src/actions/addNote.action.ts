@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from "@/lib/getAuthToken";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function addNote(title: string, content: string) {
     const token = await getAuthToken();
@@ -24,7 +24,7 @@ export async function addNote(title: string, content: string) {
             
             const data = await res.json();
             if (data?.msg)
-                revalidateTag('notes');
+                updateTag('notes');
 
             return data;
     

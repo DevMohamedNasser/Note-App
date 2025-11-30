@@ -2,7 +2,7 @@
 
 import { getAuthToken } from "@/lib/getAuthToken";
 
-export async function getNotes({ tags }: { tags?: string[] } = {}) {
+export async function getNotes() {
   const token = await getAuthToken();
 
   if (!token) throw new Error("Unauthenticated");
@@ -13,6 +13,7 @@ export async function getNotes({ tags }: { tags?: string[] } = {}) {
         token: "3b8ny__" + token,
       },
       cache: "no-store",
+      next: { tags: ["notes"] }, // مهم عشان updateTag يعرف أي data يحدث
     });
 
     if (!res.ok) throw new Error("Error Fetching Data!");
@@ -20,8 +21,7 @@ export async function getNotes({ tags }: { tags?: string[] } = {}) {
     const data = await res.json();
     return data;
   } catch (error) {
-  console.error("getNotes error:", error);
-  return { notes: [], error: (error as Error).message };
-}
-
+    console.error("getNotes error:", error);
+    return { notes: [], error: (error as Error).message };
+  }
 }
